@@ -28,4 +28,24 @@
                     }
             }
         });
+        
+    
     </script>    
+
+    {
+  "launcherButton": { visibility: "Off"} ; //set visibility to "off" or "ondemand" to disable/hide the launcher button
+}
+        
+        <button id="custom-launcher" onclick="toggleMessenger()">
+  Messenger
+</button>
+        <script type="text/javascript">
+  function toggleMessenger(){
+    Genesys("command", "Messenger.open", {},
+      function(o){},  // if resolved
+      function(o){    // if rejected
+        Genesys("command", "Messenger.close");
+      }
+    );
+  }
+</script>
