@@ -30,18 +30,18 @@
   </script>
   </head>
   <body style="font-family:Helvetica;">
-  <h1>GloriFi Web Messaging Testing</h1>
+  <h1>Peter's Web Messaging Testing</h1>
   <table>
     <tr>
       <td colspan="2"><h3>Messenger Configuration</h3></td>
     </tr>
     <tr>
       <td>Deployment Name</td>
-      <td>GloriFi</td>
+      <td>PKS Deployment</td>
     </tr>
     <tr>
       <td>Deployment Key</td>
-      <td>d2e02e85-0cb2-412f-b918-8cabe5085fa8</td>
+      <td>50d5f3cb-a9da-4832-8e5a-d1c323f5bf0d</td>
     </tr>
   </table>
   <br>
@@ -54,11 +54,9 @@
       <td>Choose Routing Key</td>
       <td>
         <select name="routekey" id="routingkey">
-          <option value="Avtex">Avtex</option>
-          <option value="General">General</option>
-          <option value="Banking">Banking</option>
-          <option value="Insurance">Insurance</option>
-          <option value="Mortgage">Mortgage</option>
+          <option value="Skill One">Avtex</option>
+          <option value="Skill Two">General</option>
+         
         </select>
     </td>
     </tr>
@@ -66,17 +64,7 @@
       <td>Full Name</td>
       <td><input type="text" id="fullname" name="fullname"></td>
     </tr>
-    <tr>
-      <td>Choose Topic</td>
-      <td>
-        <select name="topic" id="topic">
-          <option value="General Question">Option 1</option>
-          <option value="Option 2">Option 2</option>
-          <option value="Banking">Banking</option>
-          <option value="Banking Inquiry">Banking Inquiry</option>
-      </select>
-    </td>
-    </tr>
+   
     <tr>
       <td></td>
       <td><button name="chatnow" id="chatnow" onclick="startWebMessaging()">Chat Now</button></td>
@@ -178,7 +166,7 @@ function clearData() {
                 }
             });
   
-      //Open Messanger Window
+      //Open Messenger Window
       Genesys("command", "Messenger.open"); 
       Genesys("command", "Launcher.show");
   }
@@ -188,15 +176,10 @@ function clearData() {
   <button id="cleardata" onclick="clearData()">Clear _actmu Data</button>
   <button id="showlauncher" onclick="showLauncher()">Show Launcher</button>
   <br>
-  <a href="page2.html">Page 2</a>
+
   </body>
   </html>
 <!DOCTYPE html>
 
        
-        <button id="custom-launcher" onclick="toggleMessenger()">
-  Messenger
-</button>
 
- 
-    
