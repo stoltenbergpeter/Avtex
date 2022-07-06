@@ -1,14 +1,18 @@
 
-<!DOCTYPE html>
-
-       
-        <button id="custom-launcher" onclick="toggleMessenger()">
-  Messenger
-</button>
-    </script><script type="text/javascript">
-
-  
-  (function (g, e, n, es, ys) {
+<head>
+  <title>Peter's Web Messaging Form Example</title>
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <base target="top">
+  <style>
+    .center {
+      margin: auto;
+      width: 40%;
+      border: 3px solid #73AD21;
+      padding: 10px;
+    }
+  </style>
+  <script type="text/javascript" charset="utf-8">
+   (function (g, e, n, es, ys) {
     g['_genesysJs'] = e;
     g[e] = g[e] || function () {
       (g[e].q = g[e].q || []).push(arguments)
@@ -21,16 +25,179 @@
     deploymentId: '50d5f3cb-a9da-4832-8e5a-d1c323f5bf0d'
   });
 
-        // Set Custom Attribute
-        Genesys("command", "Database.set", {
-                messaging: {
-                    customAttributes: {
-                    first: "Peter",
-                    last: "Stoltenbergg",
-                    domain: "avtex.com"  
-                    }
-            }
-        });
+     
+ 
+  </script>
+  </head>
+  <body style="font-family:Helvetica;">
+  <h1>GloriFi Web Messaging Testing</h1>
+  <table>
+    <tr>
+      <td colspan="2"><h3>Messenger Configuration</h3></td>
+    </tr>
+    <tr>
+      <td>Deployment Name</td>
+      <td>GloriFi</td>
+    </tr>
+    <tr>
+      <td>Deployment Key</td>
+      <td>d2e02e85-0cb2-412f-b918-8cabe5085fa8</td>
+    </tr>
+  </table>
+  <br>
+  <div id="datacollectionform" class="center">
+  <table>
+    <tr>
+      <td colspan="2"><h3>Sample Data Collection Form</h3></td>
+    </tr>
+    <tr>
+      <td>Choose Routing Key</td>
+      <td>
+        <select name="routekey" id="routingkey">
+          <option value="Avtex">Avtex</option>
+          <option value="General">General</option>
+          <option value="Banking">Banking</option>
+          <option value="Insurance">Insurance</option>
+          <option value="Mortgage">Mortgage</option>
+        </select>
+    </td>
+    </tr>
+    <tr>
+      <td>Full Name</td>
+      <td><input type="text" id="fullname" name="fullname"></td>
+    </tr>
+    <tr>
+      <td>Choose Topic</td>
+      <td>
+        <select name="topic" id="topic">
+          <option value="General Question">Option 1</option>
+          <option value="Option 2">Option 2</option>
+          <option value="Banking">Banking</option>
+          <option value="Banking Inquiry">Banking Inquiry</option>
+      </select>
+    </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button name="chatnow" id="chatnow" onclick="startWebMessaging()">Chat Now</button></td>
+    </tr>
+  </table>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+  let suppressMessenger = true;
+  
+  // Check for Local Storage Support
+  function localStorageSupported() {
+    try {
+      return "localStorage" in window && window["localStorage"] !== null;
+    } catch (e) {
+      return false;
+    }
+  }
+
+function clearData() {
+    try {
+      localStorage.setItem('_actmu','');
+      localStorage.setItem('_actms','');
+      localStorage.setItem('_actts','');
+      localStorage.setItem('_actvc','');
+      console.log("_actmu data cleared");
+    } catch (e) {
+      console.log("_actmu clear error");
+      return false;
+    }
+  };
+
+  function showLauncher(){
+    Genesys("command", "Launcher.show");
+  }
+  
+  
+  $( document ).ready(function() {
+          console.log("document loaded");
+          if (localStorageSupported) {
+            console.log("local storage supported");
+            localStorage.setItem('showLauncher',false);
+            console.log("showLauncher to false");
+          }
+  });
+  
+    // Subscribe to events
+    Genesys("subscribe", "Messenger.opened", function(o){
+      console.log("Messenger open event try to close window");
+      
+        if (suppressMessenger == true)
+          {
+            //window.setTimeout(closeMessenger, 2000);
+          }
+  
+    });
+
+  
+    // Try to close messenger window and hide launcher if visible
+    function closeMessenger(){
+      Genesys("command", "Launcher.hide");
+      Genesys("command", "Messenger.close", {},
+        function(o){
+          console.log("Closed Messenger Window");
+        },  // if resolved
+        function(o){    // if rejected
+          console.log("Failed Messenger Close");
+          
+        }
+      );
+    }
+  
+  // function to start a web message, send data to Genesys Cloud and disply Messenger window 
+  function startWebMessaging() {
+    var fullName = document.getElementById("fullname").value;
+    var Topic = document.getElementById("topic").options[document.getElementById("topic").selectedIndex].value;
+    var routingKey = document.getElementById("routingkey").options[document.getElementById("routingkey").selectedIndex].value;
+  
+    suppressMessenger = false;
+  
+    //Hide Data Collection Form
+    document.getElementById("datacollectionform").style.display = "none";
+
+    // Set Form Value
+    if (localStorageSupported) {
+        console.log("local storage supported");
+        localStorage.setItem('showLauncher',true);
+        console.log("showLauncher to true");
+    }
+  
+    // Set Custom Attribute
+    Genesys("command", "Database.set", {
+                    messaging: {
+                        customAttributes: {
+                        "RoutingKey": routingKey,
+                        "MemberName": fullName,
+                        "FinalIntent":Topic
+                        }
+                }
+            });
+  
+      //Open Messanger Window
+      Genesys("command", "Messenger.open"); 
+      Genesys("command", "Launcher.show");
+  }
+  </script>
+  
+
+  <button id="cleardata" onclick="clearData()">Clear _actmu Data</button>
+  <button id="showlauncher" onclick="showLauncher()">Show Launcher</button>
+  <br>
+  <a href="page2.html">Page 2</a>
+  </body>
+  </html>
+<!DOCTYPE html>
+
+       
+        <button id="custom-launcher" onclick="toggleMessenger()">
+  Messenger
+</button>
+
         
             {
   "launcherButton": { visibility: "Off"} ; //set visibility to "off" or "ondemand" to disable/hide the launcher button
