@@ -2,43 +2,7 @@
 
 <header>
 
-<script type="text/javascript" charset="utf-8">
-  (function (g, e, n, es, ys) {
-    g['_genesysJs'] = e;
-    g[e] = g[e] || function () {
-      (g[e].q = g[e].q || []).push(arguments)
-    };
-    g[e].t = 1 * new Date();
-    g[e].c = es;
-    ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
-  })(window, 'Genesys', 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js', {
-    environment: 'use1',
-    deploymentId: '50d5f3cb-a9da-4832-8e5a-d1c323f5bf0d'
-  });
-  Genesys("subscribe", "Messenger.opened", function(o){
-var alldata =allStorage();
-console.log('start gettting localstorage messenger opened');
-console.log(alldata);
-});
 
-function allStorage() {
-var values = [], keys = Object.keys(localStorage), i = keys.length;
-while ( i-- ) {
-values.push( keys[i] + ' -- '+ localStorage.getItem(keys[i]) );
-}
-return values;
-}
-  window.onbeforeunload = function () {
-var values = [],
-keys = Object.keys(localStorage),
-i = keys.length;
-while ( i-- ) {
-if(keys[i].indexOf('gcm')>0){
-localStorage.removeItem(keys[i]);
-}
-}
-}
-</script>
 <!--  ----------------------------------------------------------------------  -->
 <!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
 <!--  If necessary, please modify the charset parameter to specify the        -->
@@ -87,7 +51,33 @@ localStorage.removeItem(keys[i]);
 
 
 
+<script type="text/javascript" charset="utf-8">
+  (function (g, e, n, es, ys) {
+    g['_genesysJs'] = e;
+    g[e] = g[e] || function () {
+      (g[e].q = g[e].q || []).push(arguments)
+    };
+    g[e].t = 1 * new Date();
+    g[e].c = es;
+    ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
+  })(window, 'Genesys', 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js', {
+    environment: 'use1',
+    deploymentId: '50d5f3cb-a9da-4832-8e5a-d1c323f5bf0d'
+  });
+  Genesys("subscribe", "Messenger.opened", function(o){
+var alldata =allStorage();
+console.log('start gettting localstorage messenger opened');
+console.log(alldata);
+});
 
+function allStorage() {
+var values = [], keys = Object.keys(localStorage), i = keys.length;
+while ( i-- ) {
+values.push( keys[i] + ' -- '+ localStorage.getItem(keys[i]) );
+}
+return values;
+}
+</script>
 
 
 
