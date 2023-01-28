@@ -15,6 +15,29 @@
     environment: 'use1',
     deploymentId: '50d5f3cb-a9da-4832-8e5a-d1c323f5bf0d'
   });
+  Genesys("subscribe", "Messenger.opened", function(o){
+var alldata =allStorage();
+console.log('start gettting localstorage messenger opened');
+console.log(alldata);
+});
+
+function allStorage() {
+var values = [], keys = Object.keys(localStorage), i = keys.length;
+while ( i-- ) {
+values.push( keys[i] + ' -- '+ localStorage.getItem(keys[i]) );
+}
+return values;
+}
+  window.onbeforeunload = function () {
+var values = [],
+keys = Object.keys(localStorage),
+i = keys.length;
+while ( i-- ) {
+if(keys[i].indexOf('gcm')>0){
+localStorage.removeItem(keys[i]);
+}
+}
+}
 </script>
 <!--  ----------------------------------------------------------------------  -->
 <!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
