@@ -43,25 +43,20 @@
 				"Last Name: " + lastName;
 
 			alert(message);
-			// Send the message to your server-side application using an HTTP request
-			// Here you can use any library or framework to send the request, like axios or fetch
-			// Example using fetch:
-			/*
-			fetch('your-server-url', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					phone_number: phoneNumber,
-					first_name: firstName,
-					last_name: lastName
-				})
-			})
-			.then(response => response.json())
-			.then(data => console.log(data))
-			.catch(error => console.error(error));
-			*/
+
+			// Set custom attributes to pass data to Genesys Cloud for storage in your database
+			var customAttributes = {
+				phone_number: phoneNumber,
+				first_name: firstName,
+				last_name: lastName
+			};
+
+			// Call Genesys command to set the custom attributes in your database
+			Genesys("command", "Database.set", {
+				messaging: {
+					customAttributes: customAttributes
+				}
+			});
 		}
 	</script>
 </body>
